@@ -28,7 +28,7 @@ public class Drivetrain implements Mechanism {
         rightMotorConfig.inverted(false);
         rightMotorConfig.smartCurrentLimit(40);
         rightMotorConfig.secondaryCurrentLimit(80);
-        rightMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
 
     }
@@ -41,15 +41,22 @@ public class Drivetrain implements Mechanism {
         leftMotor.stopMotor();
         rightMotor.stopMotor();
     }
+    private static final double MAX_SPEED = 1.0;
 
 
 public Command driveCommand(CommandNiDsXboxController controller) {
     return runRepeatedly(() -> {
-        drive(controller.getLeftY() * 0.2, controller.getRightY() * 0.2);
+
+        //omg this part took like an hour to figure out :sob:
+
+        // gets output of left joystick y axis so both wheels could go forward or backwards
+        double move = controller.getLeftY() * MAX_SPEED;
+        // gets output of left joystick x axis to determine where to turn
+        double turn = controller.getLeftX() * MAX_SPEED;
+        drive(move - turn, move + turn);
         
     })
     .whenExited(this::stop)
     .named("Drive");
 }
-
 }

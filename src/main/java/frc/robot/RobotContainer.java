@@ -15,16 +15,15 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+  }
 
   public Command getAutonomousCommand() {
-    return Command.noRequirements(coroutine -> System.out.println(" No auto commands figured"))
+    return Command.noRequirements(coroutine -> System.out.println(" No auto commands configured"))
       .named("autonomous command");
   }
 
   private final Drivetrain drivetrain = new Drivetrain();
   private final CommandNiDsXboxController controller = new CommandNiDsXboxController(0);
   private final Command driveCommand = drivetrain.driveCommand(controller);
-
-
 }
