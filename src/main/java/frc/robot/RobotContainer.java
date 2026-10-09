@@ -5,6 +5,7 @@
 package frc.robot;
 
 import org.team4159.commandsv3backport.command3.Command;
+import org.team4159.commandsv3backport.command3.Trigger;
 import org.team4159.commandsv3backport.command3.button.CommandNiDsXboxController;
 
 import frc.robot.mechanisms.Drivetrain;

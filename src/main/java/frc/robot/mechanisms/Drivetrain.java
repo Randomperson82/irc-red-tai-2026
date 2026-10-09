@@ -4,7 +4,7 @@ import org.team4159.commandsv3backport.command3.Command;
 import org.team4159.commandsv3backport.command3.Mechanism;
 import org.team4159.commandsv3backport.command3.Trigger;
 import org.team4159.commandsv3backport.command3.button.CommandNiDsXboxController;
-
+import org.team4159.commandsv3backport.event.EventLoop;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
@@ -51,23 +51,18 @@ public class Drivetrain implements Mechanism {
 public Command driveCommand(CommandNiDsXboxController controller) {
     return runRepeatedly(() -> {
         //TO DO
-        // l1 and l2 turns the robot too as well as the right joy stick. for better aiming
-        // the arrow buttons on the controller will adjust the speed in which the robots turn
-        // 
-        double leftTrigger = controller.getLeftTriggerAxis();
-        double rightTrigger = controller.getRightTriggerAxis();
+        // omg you dont understand how much time this took
+        double turnSpeed = (controller.getLeftTriggerAxis() - controller.getRightTriggerAxis()) * AIMING_TURN_SPEED;
 
-        double turnSpeed = (leftTrigger - rightTrigger) * AIMING_TURN_SPEED;
-        drive(turnSpeed, -turnSpeed);
+        double leftJoyStick = controller.getLeftY() * MAX_SPEED;
+        double rightJoyStick = controller.getRightY() * MAX_SPEED;
 
-        //omg this part took like an hour to figure out :sob:
-        //more like 15 mins but whatever
+        // turn left and subtract rigth side so one side is spinning the other direction
+        double left = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, leftJoyStick + turnSpeed));
+        double right = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, rightJoyStick - turnSpeed));
 
-        // gets output of left joystick y axis so both wheels could go forward or backwards
-        double move = controller.getLeftY() * MAX_SPEED;
-        // gets output of right joystick x axis to determine where to turn
-        double turn = controller.getRightY() * MAX_SPEED;
-        drive(move - turn, move + turn);
+        drive(left, right);
+
         
     })
     .whenExited(this::stop)
