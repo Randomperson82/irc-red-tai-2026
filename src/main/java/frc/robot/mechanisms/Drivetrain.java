@@ -43,23 +43,30 @@ public class Drivetrain implements Mechanism {
         leftMotor.stopMotor();
         rightMotor.stopMotor();
     }
-    private static final double MAX_SPEED = 1.0;
-    private static final double AIMING_TURN_SPEED = 0.2;
 
 
 
 public Command driveCommand(CommandNiDsXboxController controller) {
     return runRepeatedly(() -> {
-        //TO DO
-        // omg you dont understand how much time this took
-        double turnSpeed = (controller.getLeftTriggerAxis() - controller.getRightTriggerAxis()) * AIMING_TURN_SPEED;
+        double MAX_SPEED = 1.0;
+        double AIMING_TURN_SPEED = 0.2;
 
-        double leftJoyStick = controller.getLeftY() * MAX_SPEED;
-        double rightJoyStick = controller.getRightY() * MAX_SPEED;
+        // omg you dont understand how much time this took 53 - 64
+        //
+        // TODO;
+        // restart everything
+        // include raw joystick and add center threshold
+        // we dont need the trigger turn anymore just tank drive
+        //
+        // subtracting trigger axis to combine them
+        double leftJoystickRaw = -controller.getLeftY;
+        double rightJoyStickRaw = -controller.getRightY;
 
-        // turn left and subtract rigth side so one side is spinning the other direction
-        double left = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, leftJoyStick + turnSpeed));
-        double right = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, rightJoyStick - turnSpeed));
+        double leftJoyStick = MathUtil.applyDeadband(leftJoystickRaw, 0.2);
+        double rightJoyStick = MathUtil.applyDeadband(rightJoyStick, 0.2);
+
+        double left = leftJoyStick * MAX_SPEED;
+        double right = rightJoyStick * MAX_SPEED;
 
         drive(left, right);
 
