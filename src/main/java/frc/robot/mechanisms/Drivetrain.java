@@ -1,5 +1,7 @@
 package frc.robot.mechanisms;
 
+import edu.wpi.first.math.MathUtil;
+
 import org.team4159.commandsv3backport.command3.Command;
 import org.team4159.commandsv3backport.command3.Mechanism;
 import org.team4159.commandsv3backport.command3.Trigger;
@@ -59,11 +61,11 @@ public Command driveCommand(CommandNiDsXboxController controller) {
         // we dont need the trigger turn anymore just tank drive
         //
         // subtracting trigger axis to combine them
-        double leftJoystickRaw = -controller.getLeftY;
-        double rightJoyStickRaw = -controller.getRightY;
+        double leftJoystickRaw = -controller.getLeftY();
+        double rightJoystickRaw = -controller.getRightY();
 
         double leftJoyStick = MathUtil.applyDeadband(leftJoystickRaw, 0.2);
-        double rightJoyStick = MathUtil.applyDeadband(rightJoyStick, 0.2);
+        double rightJoyStick = MathUtil.applyDeadband(rightJoystickRaw, 0.2);
 
         double left = leftJoyStick * MAX_SPEED;
         double right = rightJoyStick * MAX_SPEED;
