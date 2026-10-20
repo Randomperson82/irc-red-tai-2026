@@ -3,7 +3,6 @@ package frc.robot.mechanisms;
 
 import org.team4159.commandsv3backport.command3.Command;
 import org.team4159.commandsv3backport.command3.Mechanism;
-import org.team4159.commandsv3backport.command3.button.CommandNiDsXboxController;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
@@ -23,6 +22,7 @@ public class Shooter implements Mechanism {
     motorConfig1.secondaryCurrentLimit(80);
     motor1.configure(motorConfig1, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
+    motorConfig2.inverted(false);
     motorConfig2.smartCurrentLimit(40);
     motorConfig2.secondaryCurrentLimit(80);
     motor2.configure(motorConfig2, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);

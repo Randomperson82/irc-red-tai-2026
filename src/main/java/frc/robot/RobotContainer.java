@@ -19,12 +19,11 @@ public class RobotContainer {
   private final Command driveCommand = drivetrain.driveCommand(controller);
 
   private final Shooter shooter = new Shooter();
-  public final Trigger shootBalls = controller.rightBumper();
+  private final Trigger shootBalls = controller.b();
 
   public RobotContainer() {
     drivetrain.setDefaultCommand(driveCommand);
     configureBindings();
-
   }
 
   private void configureBindings() {
