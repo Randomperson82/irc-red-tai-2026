@@ -33,8 +33,9 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Command.noRequirements(coroutine -> System.out.println(" No auto commands configured"))
-      .named("autonomous command");
+
+
+    return AutoFactory.autoCommand(drivetrain, shooter);
   }
 
 
