@@ -15,8 +15,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 public class Drivetrain implements Mechanism {
 
     // declaring motor controls
-    private final SparkMax leftMotor = new SparkMax(1, MotorType.kBrushless);
-    private final SparkMax rightMotor = new SparkMax(2, MotorType.kBrushless);
+    private final SparkMax leftMotor = new SparkMax(2, MotorType.kBrushless);
+    private final SparkMax rightMotor = new SparkMax(1, MotorType.kBrushless);
     private SparkMaxConfig leftMotorConfig = new SparkMaxConfig();
     private SparkMaxConfig rightMotorConfig = new SparkMaxConfig();
 
