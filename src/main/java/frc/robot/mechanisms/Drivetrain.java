@@ -47,7 +47,7 @@ public class Drivetrain implements Mechanism {
 
 
 public Command driveCommand(CommandNiDsXboxController controller) {
-    double MAX_SPEED = 1.0;
+    double MAX_SPEED = 0.5;
 
     return runRepeatedly(() -> {
 
