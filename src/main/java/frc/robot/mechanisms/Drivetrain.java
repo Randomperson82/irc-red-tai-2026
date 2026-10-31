@@ -20,7 +20,6 @@ public class Drivetrain implements Mechanism {
     private SparkMaxConfig leftMotorConfig = new SparkMaxConfig();
     private SparkMaxConfig rightMotorConfig = new SparkMaxConfig();
 
-    
     public Drivetrain() {
         leftMotorConfig.inverted(true);
         leftMotorConfig.smartCurrentLimit(40);
@@ -32,40 +31,39 @@ public class Drivetrain implements Mechanism {
         rightMotorConfig.secondaryCurrentLimit(80);
         rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-
     }
 
     private void drive(double leftSpeed, double rightSpeed) {
         leftMotor.set(leftSpeed);
         rightMotor.set(rightSpeed);
     }
+
     private void stop() {
         leftMotor.stopMotor();
         rightMotor.stopMotor();
     }
 
+    public Command driveCommand(CommandNiDsXboxController controller) {
+        double maxSpeed = 0.5;
+        double deadBand = 0.1;
 
+        return runRepeatedly(() -> {
 
-public Command driveCommand(CommandNiDsXboxController controller) {
-    double MAX_SPEED = 0.5;
+            drive(MathUtil.applyDeadband(controller.getLeftY(), deadBand) * maxSpeed,
+                    MathUtil.applyDeadband(controller.getRightY(), deadBand) * maxSpeed);
 
-    return runRepeatedly(() -> {
+        })
+                .whenExited(this::stop)
+                .named("Drive");
+    }
 
-
-        drive(MathUtil.applyDeadband(-controller.getLeftY(), 0.2) * MAX_SPEED, MathUtil.applyDeadband(-controller.getRightY(), 0.2) * MAX_SPEED);
-
-        
-    })
-    .whenExited(this::stop)
-    .named("Drive");
-}
-    public Command autoDriveCommand(double leftSpeed, double rightSpeed){
+    public Command autoDriveCommand(double leftSpeed, double rightSpeed) {
         return run(coroutine -> {
             drive(leftSpeed, rightSpeed);
             coroutine.park();
-    })
-        .whenExited(this::stop)
-        .named("auto drive");
-}
+        })
+                .whenExited(this::stop)
+                .named("auto drive");
+    }
 
 }

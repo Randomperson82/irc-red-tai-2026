@@ -1,6 +1,5 @@
 package frc.robot.mechanisms;
 
-
 import org.team4159.commandsv3backport.command3.Command;
 import org.team4159.commandsv3backport.command3.Mechanism;
 
@@ -16,7 +15,8 @@ public class Shooter implements Mechanism {
 
   private SparkMaxConfig motorConfig1 = new SparkMaxConfig();
   private SparkMaxConfig motorConfig2 = new SparkMaxConfig();
-  public Shooter () {
+
+  public Shooter() {
     motorConfig1.inverted(true);
     motorConfig1.smartCurrentLimit(40);
     motorConfig1.secondaryCurrentLimit(80);
@@ -27,7 +27,7 @@ public class Shooter implements Mechanism {
     motorConfig2.secondaryCurrentLimit(80);
     motor2.configure(motorConfig2, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
-  
+
   private void stop() {
     motor2.stopMotor();
     motor1.stopMotor();
@@ -37,15 +37,14 @@ public class Shooter implements Mechanism {
     motor1.set(speed);
     motor2.set(speed);
   }
-  public Command shooterCommand(double speed1){
+
+  public Command shooterCommand(double speed1) {
     return run(coroutine -> {
       shoot(speed1);
       coroutine.park();
-    }) 
-  .whenExited(this::stop)
-  .named("shoot");
+    })
+        .whenExited(this::stop)
+        .named("shoot");
   }
-
-
 
 }
