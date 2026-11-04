@@ -1,6 +1,7 @@
 package frc.robot.mechanisms;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 
 import org.team4159.commandsv3backport.command3.Command;
 import org.team4159.commandsv3backport.command3.Mechanism;
@@ -19,6 +20,8 @@ public class Drivetrain implements Mechanism {
     private final SparkMax rightMotor = new SparkMax(1, MotorType.kBrushless);
     private SparkMaxConfig leftMotorConfig = new SparkMaxConfig();
     private SparkMaxConfig rightMotorConfig = new SparkMaxConfig();
+
+    SlewRateLimiter filter = new SlewRateLimiter(0.05);
 
     public Drivetrain() {
         leftMotorConfig.inverted(true);
@@ -44,13 +47,13 @@ public class Drivetrain implements Mechanism {
     }
 
     public Command driveCommand(CommandNiDsXboxController controller) {
-        double maxSpeed = 0.5;
+        final double MAX_SPEED = 0.5;
         double deadBand = 0.1;
+
 
         return runRepeatedly(() -> {
 
-            drive(MathUtil.applyDeadband(controller.getLeftY(), deadBand) * maxSpeed,
-                    MathUtil.applyDeadband(controller.getRightY(), deadBand) * maxSpeed);
+            drive(filter.calculate(MathUtil.applyDeadband(controller.getLeftY(), deadBand)) * MAX_SPEED, filter.calculate(MathUtil.applyDeadband(controller.getRightY(), deadBand)) * MAX_SPEED);
 
         })
                 .whenExited(this::stop)
