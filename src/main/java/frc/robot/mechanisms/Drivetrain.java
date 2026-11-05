@@ -21,7 +21,8 @@ public class Drivetrain implements Mechanism {
     private SparkMaxConfig leftMotorConfig = new SparkMaxConfig();
     private SparkMaxConfig rightMotorConfig = new SparkMaxConfig();
 
-    SlewRateLimiter filter = new SlewRateLimiter(0.05);
+    SlewRateLimiter filterLeft = new SlewRateLimiter(3);
+    SlewRateLimiter filterRight = new SlewRateLimiter(3);
 
     public Drivetrain() {
         leftMotorConfig.inverted(true);
@@ -47,13 +48,13 @@ public class Drivetrain implements Mechanism {
     }
 
     public Command driveCommand(CommandNiDsXboxController controller) {
-        final double MAX_SPEED = 0.5;
+        double maxSpeed = 0.5;
         double deadBand = 0.1;
-
 
         return runRepeatedly(() -> {
 
-            drive(filter.calculate(MathUtil.applyDeadband(controller.getLeftY(), deadBand)) * MAX_SPEED, filter.calculate(MathUtil.applyDeadband(controller.getRightY(), deadBand)) * MAX_SPEED);
+            drive(filterLeft.calculate(MathUtil.applyDeadband(controller.getLeftY(), deadBand) * maxSpeed),
+                    filterRight.calculate(MathUtil.applyDeadband(controller.getRightY(), deadBand) * maxSpeed));
 
         })
                 .whenExited(this::stop)
