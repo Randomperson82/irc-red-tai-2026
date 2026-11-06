@@ -29,7 +29,7 @@ public class RobotContainer {
   private void configureBindings() {
 
 
-    shootBalls.whileTrue(shooter.shooterCommand(0.25));
+    shootBalls.whileTrue(shooter.shooterCommand(0.25, .5));
   }
 
   public Command getAutonomousCommand() {
