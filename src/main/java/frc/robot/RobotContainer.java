@@ -15,7 +15,7 @@ public class RobotContainer {
   //initalizing objects
 
   private final Drivetrain drivetrain = new Drivetrain();
-  private final CommandNiDsXboxController controller = new CommandNiDsXboxController(0);
+  public final CommandNiDsXboxController controller = new CommandNiDsXboxController(0);
   private final Command driveCommand = drivetrain.driveCommand(controller);
 
   private final Shooter shooter = new Shooter();
@@ -27,9 +27,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-
-
     shootBalls.whileTrue(shooter.shooterCommand(0.25, .5));
+
   }
 
   public Command getAutonomousCommand() {
@@ -37,6 +36,4 @@ public class RobotContainer {
 
     return AutoFactory.autoCommand(drivetrain, shooter);
   }
-
-
 }
