@@ -30,8 +30,8 @@ public class Drivetrain implements Mechanism {
 
 
     // only limit acceleration when slowing down - ethan zhuuu
-    SlewRateLimiter filterLeft = new SlewRateLimiter(3);
-    SlewRateLimiter filterRight = new SlewRateLimiter(3);
+    SlewRateLimiter filterLeft = new SlewRateLimiter(3, 10, 0);
+    SlewRateLimiter filterRight = new SlewRateLimiter(3, 10, 0);
 
     public Drivetrain() {
         leftMotorConfig.inverted(true);
@@ -60,6 +60,7 @@ public class Drivetrain implements Mechanism {
 
     public Command driveCommand(CommandNiDsXboxController controller) {
         double deadBand = 0.1;
+
         return runRepeatedly(() -> {
             maxSpeed = controller.leftBumper().getAsBoolean() ? SLOW_MAX_SPEED : NORMAL_MAX_SPEED;
             
