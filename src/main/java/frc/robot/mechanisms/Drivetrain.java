@@ -65,13 +65,10 @@ public class Drivetrain implements Mechanism {
             maxSpeed = controller.leftBumper().getAsBoolean() ? SLOW_MAX_SPEED : NORMAL_MAX_SPEED;
             
             // debug
-            System.out.println("LEFT raw" + controller.getLeftY());
-            System.out.println("LEFT filtered" +
-            filterLeft.calculate(MathUtil.applyDeadband(controller.getLeftY(), deadBand)));
-            System.out.println("RIGHT raw" + controller.getRightY());
-            System.out.println("RIGHT filtered " +
-            filterRight.calculate(MathUtil.applyDeadband(controller.getRightY(),
-            deadBand)));
+            // System.out.println("LEFT raw" + controller.getLeftY());
+            // System.out.println("LEFT filtered" + filterLeft.calculate(MathUtil.applyDeadband(controller.getLeftY(), deadBand)));
+            // System.out.println("RIGHT raw" + controller.getRightY());
+            // System.out.println("RIGHT filtered " + filterRight.calculate(MathUtil.applyDeadband(controller.getRightY(), deadBand)));
 
 
             drive(filterLeft.calculate(MathUtil.applyDeadband(controller.getLeftY(), deadBand) * maxSpeed),
