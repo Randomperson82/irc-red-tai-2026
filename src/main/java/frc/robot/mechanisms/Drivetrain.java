@@ -30,8 +30,8 @@ public class Drivetrain implements Mechanism {
 
 
     // only limit acceleration when slowing down - ethan zhuuu
-    SlewRateLimiter filterLeft = new SlewRateLimiter(3, 10, 0);
-    SlewRateLimiter filterRight = new SlewRateLimiter(3, 10, 0);
+    SlewRateLimiter filterLeft = new SlewRateLimiter(5, -10, 0);
+    SlewRateLimiter filterRight = new SlewRateLimiter(5, -10, 0);
 
     public Drivetrain() {
         leftMotorConfig.inverted(true);
@@ -65,15 +65,14 @@ public class Drivetrain implements Mechanism {
             maxSpeed = controller.leftBumper().getAsBoolean() ? SLOW_MAX_SPEED : NORMAL_MAX_SPEED;
             
             // debug
-            // System.out.println("LEFT raw" + controller.getLeftY());
-            // System.out.println("LEFT filtered" +
-            // filterLeft.calculate(MathUtil.applyDeadband(controller.getLeftY(),
-            // deadBand)));
-            // System.out.println("RIGHT raw" + controller.getRightY());
+            System.out.println("LEFT raw" + controller.getLeftY());
+            System.out.println("LEFT filtered" +
+            filterLeft.calculate(MathUtil.applyDeadband(controller.getLeftY(), deadBand)));
+            System.out.println("RIGHT raw" + controller.getRightY());
             System.out.println("RIGHT filtered " +
-            filterLeft.calculate(MathUtil.applyDeadband(controller.getRightY(),
+            filterRight.calculate(MathUtil.applyDeadband(controller.getRightY(),
             deadBand)));
-            System.out.println(controller.getRightY());
+
 
             drive(filterLeft.calculate(MathUtil.applyDeadband(controller.getLeftY(), deadBand) * maxSpeed),
                     filterRight.calculate(MathUtil.applyDeadband(controller.getRightY(), deadBand) * maxSpeed));
