@@ -10,6 +10,7 @@ import org.team4159.commandsv3backport.command3.button.CommandNiDsXboxController
 
 import frc.robot.mechanisms.Drivetrain;
 import frc.robot.mechanisms.Shooter;
+import frc.robot.mechanisms.Feeder;
 
 public class RobotContainer {
   //initalizing objects
@@ -19,6 +20,7 @@ public class RobotContainer {
   private final Command driveCommand = drivetrain.driveCommand(controller);
 
   private final Shooter shooter = new Shooter();
+  private final Feeder feederWrapper = new Feeder();
   private final Trigger longShot = controller.b();
   private final Trigger shortShot = controller.a();
   private final Trigger feeder = controller.rightBumper();
@@ -31,7 +33,7 @@ public class RobotContainer {
   private void configureBindings() {
     longShot.whileTrue(shooter.drumCommand(.5));
     shortShot.whileTrue(shooter.drumCommand(.3));
-    feeder.whileTrue(shooter.feedCommand(.25));
+    feeder.whileTrue(feederWrapper.feedCommand(.25));
   }
 
   public Command getAutonomousCommand() {
