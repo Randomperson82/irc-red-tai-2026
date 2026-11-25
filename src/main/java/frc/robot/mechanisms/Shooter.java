@@ -44,14 +44,26 @@ public class Shooter implements Mechanism {
     shooter.stopMotor();
   }
 
-  private void shoot(double feederSpeed, double shooterSpeed) {
-    feederMotor.set(feederSpeed);
+  private void drumSpeed(double shooterSpeed) {
     shooter.setControl(dutyCycleRequest.withOutput(shooterSpeed));
   }
 
-  public Command shooterCommand(double feederSpeed, double shooterSpeed) {
+  private void feederSpeed(double motorSpeed) {
+    feederMotor.set(motorSpeed);
+  }
+
+  public Command feedCommand(double motorSpeed) {
     return run(coroutine -> {
-      shoot(feederSpeed, shooterSpeed);
+      feederSpeed(motorSpeed);
+      coroutine.park();
+    })
+    .whenExited(this::stop)
+    .named("feed");
+  }
+
+  public Command drumCommand(double shooterSpeed) {
+    return run(coroutine -> {
+      drumSpeed(shooterSpeed);
       System.out.println("shhoot");
       coroutine.park();
     })

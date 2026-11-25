@@ -19,7 +19,9 @@ public class RobotContainer {
   private final Command driveCommand = drivetrain.driveCommand(controller);
 
   private final Shooter shooter = new Shooter();
-  private final Trigger shootBalls = controller.b();
+  private final Trigger longShot = controller.b();
+  private final Trigger shortShot = controller.a();
+  private final Trigger feeder = controller.rightBumper();
 
   public RobotContainer() {
     drivetrain.setDefaultCommand(driveCommand);
@@ -27,8 +29,9 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    shootBalls.whileTrue(shooter.shooterCommand(0.25, .5));
-
+    longShot.whileTrue(shooter.drumCommand(.5));
+    shortShot.whileTrue(shooter.drumCommand(.3));
+    feeder.whileTrue(shooter.feedCommand(.25));
   }
 
   public Command getAutonomousCommand() {

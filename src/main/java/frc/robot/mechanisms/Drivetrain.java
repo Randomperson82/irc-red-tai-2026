@@ -70,9 +70,10 @@ public class Drivetrain implements Mechanism {
             // filterLeft.calculate(MathUtil.applyDeadband(controller.getLeftY(),
             // deadBand)));
             // System.out.println("RIGHT raw" + controller.getRightY());
-            // System.out.println("RIGHT filtered" +
-            // filterLeft.calculate(MathUtil.applyDeadband(controller.getRightY(),
-            // deadBand)));
+            System.out.println("RIGHT filtered " +
+            filterLeft.calculate(MathUtil.applyDeadband(controller.getRightY(),
+            deadBand)));
+            System.out.println(controller.getRightY());
 
             drive(filterLeft.calculate(MathUtil.applyDeadband(controller.getLeftY(), deadBand) * maxSpeed),
                     filterRight.calculate(MathUtil.applyDeadband(controller.getRightY(), deadBand) * maxSpeed));
